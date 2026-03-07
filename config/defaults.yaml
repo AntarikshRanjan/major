@@ -1,0 +1,22 @@
+# v0dev Vision Analysis Service - Default Configuration
+
+# Gemini API settings
+gemini:
+  model: "gemini-2.5-flash"   # Model used for video analysis
+  cleanup_remote: true         # Delete uploaded file from Gemini after analysis
+  poll_interval: 5             # Seconds between file-state polling
+  max_wait: 300                # Max seconds to wait for file to be processed
+
+# Frame sampling parameters
+sampling:
+  fps: 5  # Sample frames at 5 fps (used only when --frames flag is set)
+
+# Observation filtering
+observations:
+  min_confidence: 0.5  # Drop observations below this confidence score
+
+# Output paths (relative to project root)
+paths:
+  input: "data/input"
+  frames: "data/frames"
+  output: "data/output"
