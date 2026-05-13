@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Gemini Vision Client
 
@@ -159,6 +161,30 @@ class GeminiClient:
             return response.text
         except Exception as e:
             raise GeminiClientError(f"Analysis request failed: {e}") from e
+
+    def generate_json_from_prompt(self, prompt: str, temperature: float = 0.2) -> str:
+        """
+        Send a text-only prompt and request a JSON response.
+
+        Args:
+            prompt: Structured text prompt.
+            temperature: Sampling temperature for generation.
+
+        Returns:
+            Raw text response that should contain JSON.
+        """
+        print(f"[Gemini] Running text analysis with {self.model_name} ...")
+        try:
+            response = self._model.generate_content(
+                prompt,
+                generation_config={
+                    "temperature": temperature,
+                    "response_mime_type": "application/json",
+                },
+            )
+            return response.text
+        except Exception as e:
+            raise GeminiClientError(f"Prompt request failed: {e}") from e
 
     def analyze_video_path(
         self,

@@ -74,7 +74,7 @@ Return a **JSON array** of observations — nothing else.
 Each observation must match this exact schema:
 {
   "id":         "<string: obs_secN_shortname>",
-  "sectionId":  "<string: sec_N  where N is 0-indexed temporal section>",
+  "sectionId":  "<string: sec_N where N identifies a distinct LOGICAL UI section — assign a new sec_N for each named content area (navbar, hero, 'Artificial Intelligence', 'Gaming', footer, etc.); do NOT share a sectionId across different sections just because they appear in one continuous scroll>",
   "category":   "<string: motion | layout | temporal>",
   "claim":      "<string: one precise sentence — include specific text, colors, or counts where visible>",
   "confidence": <float: 0.0–1.0, how certain you are>,
@@ -87,6 +87,7 @@ Each observation must match this exact schema:
 
 Rules:
 - Assume 5 fps for frame index estimates (frame 0 = t=0s, frame 10 = t=2s, etc.).
+- Assign sectionIds by LOGICAL content boundary, not scroll position. Each distinct named section (navbar, hero, testimonials, pricing, footer, and every topic-specific content block like 'Artificial Intelligence', 'Gaming', 'Robotics and Edge AI', etc.) must get its own unique sec_N. Do NOT collapse multiple named sections into one sectionId because they appear in the same scroll region.
 - Emit at least one "temporal" observation per detected section boundary.
 - Emit at least one "layout" observation per distinct UI section.
 - Emit multiple "layout" observations per section to cover its key sub-components.
