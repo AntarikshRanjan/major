@@ -1,0 +1,15 @@
+# Ignore local data and Python service code not needed for frontend deployment
+config/
+data/
+scripts/
+src/
+venv/
+.venv/
+.DS_Store
+package-lock.json
+.vscode/
+.git/
+
+# Ignore frontend artifacts built locally
+v0dev-frontend/node_modules/
+v0dev-frontend/.next/
