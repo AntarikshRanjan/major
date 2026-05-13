@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NVIDIA - Unleash the Future</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --green: #76b900; --bg: #0a0a0a; --surface: #141414; --border: #222; --text: #fff; --muted: #888; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 56px; }
+  .nav-logo { font-size: 22px; font-weight: 800; color: var(--green); letter-spacing: -0.5px; }
+  .nav-center { display: flex; gap: 32px; }
+  .nav-center a { font-size: 13px; color: var(--muted); transition: color 0.15s; font-weight: 500; }
+  .nav-center a:hover { color: var(--text); }
+  .nav-right { display: flex; gap: 24px; align-items: center; }
+  .nav-right a { font-size: 13px; color: var(--muted); transition: color 0.15s; }
+  .nav-right a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero { min-height: 88vh; display: flex; align-items: center; padding: 0 64px; position: relative; overflow: hidden; background: linear-gradient(135deg, #0a0a0a 0%, #0f1a00 50%, #0a0a0a 100%); }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 800px 600px at 30% 50%, rgba(118,185,0,0.08) 0%, transparent 70%); pointer-events: none; }
+  .hero-content { max-width: 560px; z-index: 1; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 20px; font-weight: 600; }
+  .hero-title { font-size: clamp(36px, 5vw, 64px); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 20px; }
+  .hero-title span { color: var(--green); }
+  .hero-desc { font-size: 16px; line-height: 1.7; color: var(--muted); margin-bottom: 36px; max-width: 440px; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--green); color: #000; padding: 13px 28px; border-radius: 2px; font-size: 13px; font-weight: 700; letter-spacing: 0.02em; transition: opacity 0.15s; cursor: pointer; border: none; }
+  .btn-primary:hover { opacity: 0.88; }
+  .hero-images { position: absolute; right: 64px; top: 50%; transform: translateY(-50%); display: flex; gap: 16px; }
+  .hero-img { width: 200px; height: 320px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .hero-img:first-child { margin-top: 40px; }
+  .hero-img-inner { width: 100%; height: 100%; background: linear-gradient(180deg, #1a2a00 0%, #0a0a0a 100%); display: flex; align-items: flex-end; padding: 16px; }
+  .hero-img-label { font-size: 11px; color: var(--muted); }
+
+  /* SECTION */
+  section { padding: 72px 64px; border-top: 1px solid var(--border); }
+  .section-header { margin-bottom: 32px; }
+  .section-tag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; font-weight: 600; }
+  .section-title { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .section-desc { font-size: 14px; color: var(--muted); line-height: 1.6; max-width: 520px; }
+
+  /* CAROUSEL */
+  .carousel-wrap { position: relative; }
+  .carousel { display: flex; gap: 16px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 8px; scrollbar-width: none; }
+  .carousel::-webkit-scrollbar { display: none; }
+  .card { flex: 0 0 280px; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; transition: border-color 0.2s, transform 0.2s; cursor: pointer; }
+  .card:hover { border-color: var(--green); transform: translateY(-2px); }
+  .card-img { width: 100%; height: 160px; background: linear-gradient(135deg, #111 0%, #1a2a00 100%); position: relative; display: flex; align-items: center; justify-content: center; }
+  .card-img-icon { font-size: 32px; opacity: 0.3; }
+  .card-body { padding: 16px; }
+  .card-category { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+  .card-title { font-size: 14px; font-weight: 600; line-height: 1.4; margin-bottom: 6px; }
+  .card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; background: var(--surface); border: 1px solid var(--border); border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; transition: border-color 0.15s; font-size: 14px; color: var(--text); }
+  .carousel-btn:hover { border-color: var(--green); }
+  .carousel-btn.prev { left: -18px; }
+  .carousel-btn.next { right: -18px; }
+
+  /* FOOTER */
+  footer { background: #060606; border-top: 1px solid var(--border); padding: 64px; }
+  .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-bottom: 48px; }
+  .footer-col-title { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; font-weight: 600; }
+  .footer-col a { display: block; font-size: 13px; color: #666; margin-bottom: 10px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--text); }
+  .footer-bottom { border-top: 1px solid var(--border); padding-top: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: gap; gap: 24px; }
+  .newsletter { display: flex; gap: 0; }
+  .newsletter input { background: var(--surface); border: 1px solid var(--border); border-right: none; padding: 10px 16px; font-size: 13px; color: var(--text); outline: none; border-radius: 2px 0 0 2px; width: 240px; }
+  .newsletter input::placeholder { color: var(--muted); }
+  .newsletter button { background: var(--green); color: #000; border: none; padding: 10px 18px; font-size: 13px; font-weight: 700; cursor: pointer; border-radius: 0 2px 2px 0; transition: opacity 0.15s; }
+  .newsletter button:hover { opacity: 0.88; }
+  .social-links { display: flex; gap: 16px; }
+  .social-links a { width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--muted); transition: border-color 0.15s, color 0.15s; }
+  .social-links a:hover { border-color: var(--green); color: var(--green); }
+  .copyright { font-size: 12px; color: #444; margin-top: 24px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">NVIDIA</div>
+  <div class="nav-center">
+    <a href="#">Products</a>
+    <a href="#">Solutions</a>
+    <a href="#">Industries</a>
+  </div>
+  <div class="nav-right">
+    <a href="#">Shop</a>
+    <a href="#">Drivers</a>
+    <a href="#">Support</a>
+    <a href="#">⌕</a>
+    <a href="#">👤</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Featured Event</div>
+    <h1 class="hero-title">Unleash the Future:<br><span>Dell Technologies</span><br>World 2026</h1>
+    <p class="hero-desc">Join us for the keynote that will define the next era of AI infrastructure, enterprise computing, and accelerated innovation.</p>
+    <button class="btn-primary">Save the Date →</button>
+  </div>
+  <div class="hero-images">
+    <div class="hero-img"><div class="hero-img-inner"><span class="hero-img-label">Michael Dell</span></div></div>
+    <div class="hero-img" style="margin-top:-40px"><div class="hero-img-inner"><span class="hero-img-label">Jensen Huang</span></div></div>
+  </div>
+</div>
+
+<!-- SECTIONS -->
+<section id="ai">
+  <div class="section-header">
+    <div class="section-tag">Platform</div>
+    <h2 class="section-title">Artificial Intelligence</h2>
+    <p class="section-desc">From data centers to edge devices, NVIDIA AI transforms industries with accelerated computing.</p>
+  </div>
+  <div class="carousel-wrap">
+    <div class="carousel-btn prev" onclick="scroll(this,-1)">←</div>
+    <div class="carousel" id="c-ai">
+      <div class="card"><div class="card-img"><span class="card-img-icon">🤖</span></div><div class="card-body"><div class="card-category">AI Infrastructure</div><div class="card-title">NVIDIA Blackwell Ultra: Next-Gen AI Superchip</div><div class="card-desc">Delivering unprecedented performance for trillion-parameter models.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">⚡</span></div><div class="card-body"><div class="card-category">Announcement</div><div class="card-title">NIM Microservices Now Available for Enterprise</div><div class="card-desc">Deploy production AI with one API call across any cloud.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🧠</span></div><div class="card-body"><div class="card-category">Research</div><div class="card-title">NVIDIA Cosmos: World Foundation Models</div><div class="card-desc">Physical AI that understands and simulates the real world.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">☁️</span></div><div class="card-body"><div class="card-category">Cloud</div><div class="card-title">DGX Cloud Expands to 12 Regions Worldwide</div><div class="card-desc">Enterprise AI supercomputing available on demand, globally.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🔬</span></div><div class="card-body"><div class="card-category">Healthcare</div><div class="card-title">BioNeMo for Drug Discovery Acceleration</div><div class="card-desc">AI-powered molecular simulation reduces time to insight by 10x.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">📊</span></div><div class="card-body"><div class="card-category">Data Science</div><div class="card-title">RAPIDS 25.0: GPU-Accelerated Analytics</div><div class="card-desc">Process terabytes of data in seconds with cuDF and cuML.</div></div></div>
+    </div>
+    <div class="carousel-btn next" onclick="scroll(this,1)">→</div>
+  </div>
+</section>
+
+<section id="design">
+  <div class="section-header">
+    <div class="section-tag">Creative</div>
+    <h2 class="section-title">Design and Simulation</h2>
+    <p class="section-desc">NVIDIA Omniverse connects 3D workflows for designers, engineers, and digital twin creators.</p>
+  </div>
+  <div class="carousel-wrap">
+    <div class="carousel-btn prev" onclick="scroll(this,-1)">←</div>
+    <div class="carousel" id="c-design">
+      <div class="card"><div class="card-img"><span class="card-img-icon">🏗️</span></div><div class="card-body"><div class="card-category">Omniverse</div><div class="card-title">Digital Twin Factory Simulation at Scale</div><div class="card-desc">Simulate entire manufacturing plants before building them.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🎨</span></div><div class="card-body"><div class="card-category">3D Design</div><div class="card-title">USD Composer 2026: Real-Time Collaboration</div><div class="card-desc">Multiple artists, one shared 3D scene, zero latency.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🌐</span></div><div class="card-body"><div class="card-category">Simulation</div><div class="card-title">Physics-Based Rendering with RTX</div><div class="card-desc">Photorealistic results indistinguishable from photography.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🏎️</span></div><div class="card-body"><div class="card-category">Engineering</div><div class="card-title">CFD Simulation 40x Faster with GPU</div><div class="card-desc">Aerodynamic modeling for automotive and aerospace teams.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🏛️</span></div><div class="card-body"><div class="card-category">AEC</div><div class="card-title">Architecture Visualization in Real Time</div><div class="card-desc">Walk through buildings that haven't been built yet.</div></div></div>
+    </div>
+    <div class="carousel-btn next" onclick="scroll(this,1)">→</div>
+  </div>
+</section>
+
+<section id="gaming">
+  <div class="section-header">
+    <div class="section-tag">Consumer</div>
+    <h2 class="section-title">Gaming and Creating</h2>
+    <p class="section-desc">GeForce RTX brings AI-powered graphics, DLSS 4, and ray tracing to every game.</p>
+  </div>
+  <div class="carousel-wrap">
+    <div class="carousel-btn prev" onclick="scroll(this,-1)">←</div>
+    <div class="carousel" id="c-gaming">
+      <div class="card"><div class="card-img"><span class="card-img-icon">🎮</span></div><div class="card-body"><div class="card-category">GeForce RTX</div><div class="card-title">RTX 5090: The World's Fastest Gaming GPU</div><div class="card-desc">DLSS 4 Multi Frame Generation delivers 8x performance.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">✨</span></div><div class="card-body"><div class="card-category">Technology</div><div class="card-title">DLSS 4 Now in 700+ Games and Apps</div><div class="card-desc">AI renders more frames. You see more of every world.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🌈</span></div><div class="card-body"><div class="card-category">Ray Tracing</div><div class="card-title">Path Tracing Comes to Open World Games</div><div class="card-desc">Full global illumination in Cyberpunk 2077 and beyond.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">📹</span></div><div class="card-body"><div class="card-category">Content Creation</div><div class="card-title">NVIDIA Broadcast 3.0: AI Studio</div><div class="card-desc">Remove backgrounds, denoise audio, track faces — all AI.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🖥️</span></div><div class="card-body"><div class="card-category">Monitors</div><div class="card-title">G-SYNC Ultra: 360Hz OLED for Esports</div><div class="card-desc">Zero tearing, zero blur, infinite competitive advantage.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">💻</span></div><div class="card-body"><div class="card-category">Laptops</div><div class="card-title">RTX 5000 Series Laptops Now Available</div><div class="card-desc">Desktop-class performance in the thinnest form factors ever.</div></div></div>
+    </div>
+    <div class="carousel-btn next" onclick="scroll(this,1)">→</div>
+  </div>
+</section>
+
+<section id="automotive">
+  <div class="section-header">
+    <div class="section-tag">Industry</div>
+    <h2 class="section-title">Automotive</h2>
+    <p class="section-desc">DRIVE Thor powers the next generation of autonomous and software-defined vehicles.</p>
+  </div>
+  <div class="carousel-wrap">
+    <div class="carousel-btn prev" onclick="scroll(this,-1)">←</div>
+    <div class="carousel" id="c-auto">
+      <div class="card"><div class="card-img"><span class="card-img-icon">🚗</span></div><div class="card-body"><div class="card-category">Platform</div><div class="card-title">DRIVE Thor: 2000 TOPS In-Vehicle AI</div><div class="card-desc">One chip to run autonomous driving, cockpit, and connectivity.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🏭</span></div><div class="card-body"><div class="card-category">Partner</div><div class="card-title">Toyota Selects NVIDIA for Next-Gen Fleet</div><div class="card-desc">Millions of vehicles will run on DRIVE platform by 2027.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🛣️</span></div><div class="card-body"><div class="card-category">Simulation</div><div class="card-title">DRIVE Sim: Infinite Miles of Safe Testing</div><div class="card-desc">Train and validate AV models without leaving the data center.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">⚡</span></div><div class="card-body"><div class="card-category">EV</div><div class="card-title">BYD Integrates NVIDIA AI Across Full Lineup</div><div class="card-desc">Smart cockpit and autonomous features powered by NVIDIA.</div></div></div>
+    </div>
+    <div class="carousel-btn next" onclick="scroll(this,1)">→</div>
+  </div>
+</section>
+
+<section id="robotics">
+  <div class="section-header">
+    <div class="section-tag">Frontier</div>
+    <h2 class="section-title">Robotics and Edge AI</h2>
+    <p class="section-desc">Isaac and Jetson bring physical AI to warehouses, factories, and edge deployments worldwide.</p>
+  </div>
+  <div class="carousel-wrap">
+    <div class="carousel-btn prev" onclick="scroll(this,-1)">←</div>
+    <div class="carousel" id="c-robotics">
+      <div class="card"><div class="card-img"><span class="card-img-icon">🤖</span></div><div class="card-body"><div class="card-category">Humanoid</div><div class="card-title">Isaac GR00T: Foundation Model for Robots</div><div class="card-desc">Teach any humanoid robot new skills with synthetic data.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">📦</span></div><div class="card-body"><div class="card-category">Logistics</div><div class="card-title">Jetson Thor Powers Warehouse Automation</div><div class="card-desc">1000 TOPS of AI at the edge for autonomous mobile robots.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🏭</span></div><div class="card-body"><div class="card-category">Manufacturing</div><div class="card-title">BMW Group Digital Twin Factory Live</div><div class="card-desc">Entire production line simulated in Omniverse before deployment.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🔍</span></div><div class="card-body"><div class="card-category">Inspection</div><div class="card-title">Visual AI for Defect Detection at 99.8%</div><div class="card-desc">Camera-based quality control replacing manual inspection.</div></div></div>
+    </div>
+    <div class="carousel-btn next" onclick="scroll(this,1)">→</div>
+  </div>
+</section>
+
+<section id="datacenter">
+  <div class="section-header">
+    <div class="section-tag">Infrastructure</div>
+    <h2 class="section-title">Data Center and Cloud</h2>
+    <p class="section-desc">H200, B200, and GB200 NVL72 redefine what's possible for AI training and inference at scale.</p>
+  </div>
+  <div class="carousel-wrap">
+    <div class="carousel-btn prev" onclick="scroll(this,-1)">←</div>
+    <div class="carousel" id="c-dc">
+      <div class="card"><div class="card-img"><span class="card-img-icon">🖥️</span></div><div class="card-body"><div class="card-category">Hardware</div><div class="card-title">GB200 NVL72: The AI Supercomputer Rack</div><div class="card-desc">72 GPUs, 1.4 exaflops of AI performance in one rack.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">🌐</span></div><div class="card-body"><div class="card-category">Networking</div><div class="card-title">Quantum-X800 InfiniBand: 800Gb/s Fabric</div><div class="card-desc">Connect thousands of GPUs with near-zero latency.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">☁️</span></div><div class="card-body"><div class="card-category">Cloud</div><div class="card-title">AWS, Azure, GCP All Launch B200 Instances</div><div class="card-desc">Access the world's most powerful AI compute on demand.</div></div></div>
+      <div class="card"><div class="card-img"><span class="card-img-icon">⚡</span></div><div class="card-body"><div class="card-category">Efficiency</div><div class="card-title">NVLink 5.0: 1.8TB/s GPU Interconnect</div><div class="card-desc">The bandwidth backbone of every modern AI supercluster.</div></div></div>
+    </div>
+    <div class="carousel-btn next" onclick="scroll(this,1)">→</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-col-title">Company Information</div>
+      <a href="#">About NVIDIA</a>
+      <a href="#">Investors</a>
+      <a href="#">Corporate Sustainability</a>
+      <a href="#">NVIDIA Foundation</a>
+      <a href="#">Careers</a>
+      <a href="#">Vendor Information</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">News and Events</div>
+      <a href="#">Newsroom</a>
+      <a href="#">NVIDIA Blog</a>
+      <a href="#">AI Podcast</a>
+      <a href="#">GTC 2026</a>
+      <a href="#">Events Calendar</a>
+      <a href="#">Press Contact</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Popular Links</div>
+      <a href="#">CUDA Toolkit</a>
+      <a href="#">NGC Catalog</a>
+      <a href="#">Developer Forums</a>
+      <a href="#">Documentation</a>
+      <a href="#">GitHub</a>
+      <a href="#">Bug Reporting</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;">Sign Up for NVIDIA News</div>
+      <div class="newsletter">
+        <input type="email" placeholder="Enter your email address">
+        <button>Subscribe</button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;">Follow NVIDIA</div>
+      <div class="social-links">
+        <a href="#">𝕏</a>
+        <a href="#">in</a>
+        <a href="#">f</a>
+        <a href="#">▶</a>
+        <a href="#">ig</a>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">Copyright © 2026 NVIDIA Corporation. All rights reserved. — Reconstructed by v0dev AI</div>
+</footer>
+
+<script>
+  function scroll(btn, dir) {
+    const wrap = btn.closest('.carousel-wrap');
+    const carousel = wrap.querySelector('.carousel');
+    carousel.scrollBy({ left: dir * 320, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
